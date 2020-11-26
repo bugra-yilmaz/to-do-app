@@ -1,0 +1,122 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        form {
+            margin: auto;
+            padding: 0;
+            width: 50%;
+        }
+        form .form-group
+        {
+            width: 100%;
+            background-image: linear-gradient(to right, #171E26, #171E26);
+            border-bottom: 1px solid #414141;
+        }
+        form .input-field
+        {
+            display: block;
+            width: 100%;
+            border: none;
+            background: none;
+            outline: none;
+            padding: 15px 15px;
+            color: #FFF;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+        .btn
+        {
+            margin: auto;
+            display: block;
+        }
+    </style>
+    <form id="form" onsubmit="event.preventDefault()" action="/register" method="post" style="background-color: #171E26">
+        <div class="form-group">
+            <label for="username"></label>
+            <input class="input-field" style="color: #CDD1CE" name="username" id="username" placeholder="Username" type="text">
+            <span style="font-size: 12px; margin-left: 10px; color: gray">You can use letters, numbers and full stops</span>
+        </div>
+        <div class="form-group">
+            <label for="password"></label>
+            <input class="input-field" style="color: #CDD1CE" name="password" id="password" placeholder="Password" type="password">
+            <span style="font-size: 12px; margin-left: 10px; color: gray">Use 8 or more letters, numbers and symbols</span>
+        </div>
+        <div class="form-group">
+            <label for="retype-password"></label>
+            <input class="input-field" style="color: #CDD1CE" name="retype-password" id="retype-password" placeholder="Confirm your password" type="password">
+
+        </div>
+        <button class="btn" id="register" onclick="check()" style="color: #CDD1CE; background-color: #53565A" type="submit">Register</button>
+        <br>
+    </form>
+
+    <script>
+        let username = document.getElementById("username");
+        let password = document.getElementById("password");
+        let retypePassword = document.getElementById("retype-password");
+
+        username.addEventListener('input', validate);
+        password.addEventListener('input', validate);
+        retypePassword.addEventListener('input', validate);
+
+        function validate(e) {
+            const usernameRegex = RegExp('^[a-zA-Z0-9.]+$');
+            const passwordRegex = RegExp('^[a-zA-Z0-9\"#\$%&\'\(\)\*\+,-\./:;<=>\?!@\[\\\]\^_`\{\|\}~]{1,}$');
+
+            let target = e.target;
+
+            if (target.name === 'username') {
+                if (usernameRegex.test(target.value)) {
+                    target.style.color = "#045915";
+                    target.valid = true;
+                } else {
+                    target.style.color = "#850808";
+                    target.valid = false;
+                }
+            }
+            if (target.name === 'password') {
+                if (passwordRegex.test(target.value)) {
+                    target.style.color = "#045915";
+                    target.valid = true;
+                } else {
+                    target.style.color = "#850808";
+                    target.valid = false;
+                }
+            }
+            if (target.name === 'retype-password') {
+                if (target.value === password.value) {
+                    target.style.color = "#045915";
+                    target.valid = true;
+                } else {
+                    target.style.color = "#850808";
+                    target.valid = false;
+                }
+            }
+        }
+
+        function check() {
+            if (username.value === '' || !username.valid) {
+                alert("Please check your username.");
+            }
+            else if (password.value === '' || !password.valid) {
+                alert("Please check your password.");
+            } 
+            else if (retypePassword === '' || !retypePassword.valid) {
+                alert("Your passwords do not match.");
+            }
+            else {
+                document.getElementById("form").submit();
+            } 
+        }
+    </script>
+{% endblock %}
