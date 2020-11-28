@@ -76,7 +76,7 @@ def create():
         title = request.form.get('title')
         description = request.form.get('description')
         status = request.form.get('status')
-        created_date = last_update_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        created_date = last_update_date = datetime.now().strftime('%Y %B %d %A %H:%M:%S')
 
         if not title:
             return render_template('create-error.html', message='Please enter a title for your TO DO item.')
