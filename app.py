@@ -1,7 +1,8 @@
 import sqlite3
-from flask import Flask, render_template, request, session, redirect
-from flask_session import Session
 from tempfile import mkdtemp
+from datetime import datetime
+from flask_session import Session
+from flask import Flask, render_template, request, session, redirect
 
 from helpers import login_required, add_user, check_username_password
 
@@ -15,7 +16,9 @@ Session(app)
 
 db = sqlite3.connect('database.db', check_same_thread=False)
 cursor = db.cursor()
-cursor.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, username TEXT NOT NULL, hash TEXT NOT NULL)")
+cursor.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, username TEXT NOT NULL, hash TEXT NOT NULL)')
+cursor.execute('CREATE TABLE IF NOT EXISTS todos (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, user_id INTEGER NOT NULL, title TEXT NOT NULL, description TEXT, status TEXT NOT NULL, created_date TEXT NOT NULL, last_update_date TEXT NOT NULL, FOREIGN KEY (user_id) REFERENCES users(id))')
+
 
 @app.route("/")
 @login_required
@@ -53,6 +56,27 @@ def register():
         return render_template("register-error.html")
     else:
         return render_template("register.html")
+
+
+@app.route("/create", methods=["GET", "POST"])
+@login_required
+def create():
+    if request.method == "POST":
+        user_id = session['user_id']
+        title = request.form.get("title")
+        description = request.form.get("description")
+        status = request.form.get("status")
+        created_date = last_update_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+        if not title:
+            return render_template('create-error.html', message='Please enter a title for your TO DO item.')
+
+        cursor.execute(f"INSERT INTO todos (user_id, title, description, status, created_date, last_update_date) VALUES({user_id}, '{title}', '{description}', '{status}', '{created_date}', '{last_update_date}')")
+        db.commit()
+        
+        return render_template("create-success.html", title=title)
+    else:
+        return render_template("create.html")
 
 
 @app.route("/logout")

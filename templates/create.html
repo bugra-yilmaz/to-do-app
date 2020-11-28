@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        form {
+            margin: auto;
+            width: 50%;
+            padding: 30px -15px;
+        }
+        form .form-group
+        {
+            width: 100%;
+            padding: 0 -15px;
+            background-image: linear-gradient(to right, #171E26, #171E26);
+            border-bottom: 1px solid #414141;
+        }
+        form .input-field 
+        {
+            display: block;
+            width: 100%;
+            border: none;
+            outline: none;
+            background: none;
+            padding: 15px;
+            margin-bottom: 15px;
+            color: #FFF;
+            font-size: 15px;
+        }
+        .btn
+        {
+            margin: auto;
+            display: block;
+        }
+        .option
+        {
+            background: none;
+        }
+    </style>
+    <form action="/create" method="post" style="background-color: #171E26">
+        <div class="form-group">
+            <label for="title"></label>
+            <input class="input-field" style="color: #CDD1CE" name="title" id="title" placeholder="Title" type="text">
+        </div>
+        <div class="form-group">
+            <label for="description"></label>
+            <textarea name="description" id="description" style="color: #CDD1CE; background: none; padding: 15px;" placeholder="Description" rows="2" cols="60"></textarea>
+        </div>
+        <div class="form-group" style="height: 70px">
+            <label for="status"></label>
+            <select name="status" id="status" style="color: white; background: none; padding: 15px;">
+                <option value="To do" style="background-color: #314052">To do</option>
+                <option value="In progress" style="background-color: #314052">In progress</option>
+                <option value="Resolved" style="background-color: #314052">Resolved</option>
+                <option value="Done" style="background-color: #314052">Done</option>
+            </select>
+        </div>
+        <button class="btn" style="color: #CDD1CE; background-color: #53565A" type="submit">Create</button>
+        <br>
+    </form>
+{% endblock %}
