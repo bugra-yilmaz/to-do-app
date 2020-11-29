@@ -50,9 +50,9 @@ def get_todo_items(cursor, user_id):
 	cursor.execute(f'SELECT * from todos WHERE user_id = {user_id}')
 	for row in cursor:
 		if row[4] == 'To do':
-			to_do.append((row[2], row[3]))
+			to_do.append((row[0], row[2], row[3]))
 		elif row[4] == 'In progress':
-			in_progress.append((row[2], row[3]))
+			in_progress.append((row[0], row[2], row[3]))
 		else:
-			done.append((row[2], row[3]))
+			done.append((row[0], row[2], row[3]))
 	return to_do, in_progress, done
