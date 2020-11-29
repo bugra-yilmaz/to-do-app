@@ -89,6 +89,17 @@ def create():
         return render_template('create.html')
 
 
+@app.route('/update')
+@login_required
+def update():
+    item_id = request.args.get('id')
+    status = request.args.get('status')
+
+    cursor.execute(f"UPDATE todos SET status = '{status}' WHERE id = {item_id}")
+    db.commit()
+    return redirect('/')
+
+
 @app.route('/logout')
 def logout():
     session.clear()

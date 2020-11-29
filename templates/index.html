@@ -8,8 +8,6 @@
 	<style>
 		.card 
 		{
-			box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-		  	transition: 0.3s;
 		  	padding: 1px;
 		  	background-color: #CDD1CE;
 		}
@@ -26,8 +24,13 @@
 			{% for item in to_do %}
 			<div class="card">
 	  			<div class="container">
-	    			<p><b>{{ item[0] }}</b></p>
-	    			<p>{{ item[1] }}</p> 
+					<p><b>{{ item[1] }}</b></p>
+					<p>{{ item[2] }}</p>
+					<select name={{ item[0] }} placeholder="" id="status" style="color: #314052; background: none; border: none; direction: rtl;">
+						<option value="" disabled selected style="background-color: #314052;"></option>
+						<option value="In progress" style="background-color: #314052; color: white">In progress</option>
+						<option value="Done" style="background-color: #314052; color: white">Done</option>
+					</select>
 	  			</div>
 			</div>
 			<br>
@@ -39,8 +42,13 @@
 			{% for item in in_progress %}
 			<div class="card">
 	  			<div class="container">
-	    			<p><b>{{ item[0] }}</b></p>
-	    			<p>{{ item[1] }}</p> 
+				<p><b>{{ item[1] }}</b></p>
+				<p>{{ item[2] }}</p>
+				<select name={{ item[0] }} placeholder="" id="status" style="color: #314052; background: none; border: none; direction: rtl;">
+					<option value="" disabled selected style="background-color: #314052;"></option>
+					<option value="To do" style="background-color: #314052; color: white">To do</option>
+					<option value="Done" style="background-color: #314052; color: white">Done</option>
+				</select>
 	  			</div>
 			</div>
 			<br>
@@ -52,12 +60,27 @@
 			{% for item in done %}
 			<div class="card">
 	  			<div class="container">
-	    			<p><b>{{ item[0] }}</b></p>
-	    			<p>{{ item[1] }}</p> 
+				<p><b>{{ item[1] }}</b></p>
+				<p>{{ item[2] }}</p>
+					<select name={{ item[0] }} placeholder="" id="status" style="color: #314052; background: none; border: none; direction: rtl;">
+					<option value="" disabled selected style="background-color: #314052;"></option>
+					<option value="To do" style="background-color: #314052; color: white">To do</option>
+					<option value="In progress" style="background-color: #314052; color: white">In progress</option>
+				</select>
 	  			</div>
 			</div>
 			<br>
 			{% endfor %}
 		</div>
 	</div>
+
+	<script type="text/javascript">
+		let elements = Array.prototype.slice.call(document.querySelectorAll("select"));
+		elements.forEach(function(element) {
+			element.addEventListener("change", function(evt) {
+				let url = 'http://localhost:5000/update?id=' + this.name + '&status=' + this.value;
+				window.location = url;
+			});
+		});
+	</script>
 {% endblock %}
