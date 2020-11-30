@@ -101,6 +101,16 @@ def update():
     return redirect('/')
 
 
+@app.route('/delete')
+@login_required
+def delete():
+    item_id = request.args.get('id')
+
+    cursor.execute(f"DELETE FROM todos WHERE id = {item_id}")
+    db.commit()
+    return redirect('/')
+
+
 @app.route('/logout')
 def logout():
     session.clear()

@@ -5,6 +5,8 @@
 {% endblock %}
 
 {% block main %}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
 	<style>
 		.card 
 		{
@@ -31,6 +33,7 @@
 						<option value="In progress" style="background-color: #314052; color: white">In progress</option>
 						<option value="Done" style="background-color: #314052; color: white">Done</option>
 					</select>
+					<button id={{ item[0] }} name="trash-button" title="{{ item[1] }}" style="float: right; border: none; background: none; font-size:20px; color: #871108;"><i class="fa fa-trash-o"></i></button>
 	  			</div>
 			</div>
 			<br>
@@ -49,6 +52,7 @@
 					<option value="To do" style="background-color: #314052; color: white">To do</option>
 					<option value="Done" style="background-color: #314052; color: white">Done</option>
 				</select>
+				<button id={{ item[0] }} name="trash-button" title="{{ item[1] }}" style="float: right; border: none; background: none; font-size:20px; color: #871108;"><i class="fa fa-trash-o"></i></button>
 	  			</div>
 			</div>
 			<br>
@@ -67,6 +71,7 @@
 					<option value="To do" style="background-color: #314052; color: white">To do</option>
 					<option value="In progress" style="background-color: #314052; color: white">In progress</option>
 				</select>
+				<button id={{ item[0] }} name="trash-button" title="{{ item[1] }}" style="float: right; border: none; background: none; font-size:20px; color: #871108;"><i class="fa fa-trash-o"></i></button>
 	  			</div>
 			</div>
 			<br>
@@ -80,6 +85,17 @@
 			element.addEventListener("change", function(evt) {
 				let url = 'http://localhost:5000/update?id=' + this.name + '&status=' + this.value;
 				window.location = url;
+			});
+		});
+
+		let buttons = Array.prototype.slice.call(document.querySelectorAll("button[name=trash-button]"));
+		buttons.forEach(function(button) {
+			button.addEventListener("click", function(evt) {
+				result = window.confirm("Are you sure you want to delete \"" + this.title + "\" from your TODOs?");
+				if (result) {
+					let url = 'http://localhost:5000/delete?id=' + this.id;
+					window.location = url;
+				}
 			});
 		});
 	</script>
