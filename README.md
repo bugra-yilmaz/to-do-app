@@ -11,7 +11,7 @@ The application checks the inputs against these conditions and provide a feedbac
 
 ![register-feedback](static/register-feedback.png?raw=true "Register feedback")
 
-If the user tries to submit invalid credentials, an error message will be prompted as shown below:
+If the user tries to submit an invalid input, an error message will be prompted as shown below:
 
 ![register-error-message](static/register-error-message.png?raw=true "Register error message")
 
