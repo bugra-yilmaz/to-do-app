@@ -94,8 +94,9 @@ def create():
 def update():
     item_id = request.args.get('id')
     status = request.args.get('status')
+    last_update_date = datetime.now().strftime('%Y %B %d %A %H:%M:%S')
 
-    cursor.execute(f"UPDATE todos SET status = '{status}' WHERE id = {item_id}")
+    cursor.execute(f"UPDATE todos SET status = '{status}', last_update_date = '{last_update_date}' WHERE id = {item_id}")
     db.commit()
     return redirect('/')
 
